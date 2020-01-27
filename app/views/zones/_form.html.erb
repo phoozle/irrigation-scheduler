@@ -1,0 +1,18 @@
+<%= form_for @zone do |f| %>
+  <p>
+    <%= f.label :name, "Zone Name" %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :on_url, "On URL" %><br />
+    <%= f.text_field :on_url %>
+  </p>
+
+  <p>
+    <%= f.label :off_url, "Off URL" %><br />
+    <%= f.text_field :off_url %>
+  </p>
+
+  <%= f.submit %>
+<% end %>

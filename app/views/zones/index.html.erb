@@ -1,0 +1,12 @@
+<h1>There are <%= @zones.count %> zones</h1>
+
+<ul>
+  <% @zones.each do |zone| %>
+    <li>
+      <%= zone.name %>
+
+      <%= link_to "Edit", edit_zone_path(zone) %>
+      <%= link_to "Delete", zone_path(zone), method: "DELETE", data: { confirm: "Are you sure?" } %>
+    </li>
+  <% end %>
+</ul>
