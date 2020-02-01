@@ -1,0 +1,60 @@
+<%= bootstrap_form_for @schedule, url: url do |f| %>
+  <%= f.form_group :days do %>
+    <% Date::DAYNAMES.each_with_index do |day, index| %>
+      <%= f.check_box :days, { multiple: true, label: day }, index, nil %>
+      <% end %>
+  <% end %>
+
+  <%= f.form_group :times do %>
+    <ul id="schedule_times" class="list-group">
+      <% f.object.times.each do |time| %>
+        <li class="list-group-item">
+          <%= select_tag "schedule[times][]",
+                options_for_select(@time_options, time.strftime("%I:%M %p"))
+          %>
+
+          <button type="button" class="btn btn-danger btn-sm" onClick="removeTime(this)">
+            Remove
+          </button>
+        </li>
+      <% end %>
+
+      <li class="list-group-item">
+        <%= select_tag "schedule[times][]",
+              options_for_select(@time_options),
+              prompt: "Add new time...",
+              class: "new_time"
+        %>
+
+        <button type="button" class="btn btn-danger btn-sm" style="display: none" onClick="removeTime(this)">
+          Remove
+        </button>
+      </li>
+    </ul>
+  <% end %>
+
+  <%= f.number_field :duration_minutes, append: "minutes", max: 60, min: 1, required: true %>
+
+  <%= f.number_field :temperature_threshold %>
+
+  <%= f.form_group :rain_skip do %>
+    <%= f.check_box :rain_skip, help: "Skip this schedule when rain forecast for the day" %>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>
+
+<script>
+  function removeTime(item) {
+    item.parentNode.remove()
+  }
+
+  $("#schedule_times").on("change", "select.new_time", function() {
+    var dup = $(this).parents("li").clone()
+
+    $(this).removeClass("new_time")
+    $(this).parent().find("button").show()
+
+    $("#schedule_times").append(dup)
+  })
+</script>

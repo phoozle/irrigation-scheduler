@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_051846) do
+ActiveRecord::Schema.define(version: 2020_01_27_024144) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer "days", default: [], array: true
+    t.time "times", default: [], array: true
+    t.boolean "rain_skip", default: false
+    t.integer "temperature_threshold", default: 0
+    t.bigint "zone_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "duration_minutes"
+    t.index ["zone_id"], name: "index_schedules_on_zone_id"
+  end
 
   create_table "zones", force: :cascade do |t|
     t.text "name"

@@ -1,12 +1,13 @@
-<h1>There are <%= @zones.count %> zones</h1>
+<h1>Zones</h1>
 
-<ul>
+<ul class="list-group">
   <% @zones.each do |zone| %>
-    <li>
-      <%= zone.name %>
+    <li class="list-group-item">
+      <h2><%= zone.name %></h2>
 
-      <%= link_to "Edit", edit_zone_path(zone) %>
-      <%= link_to "Delete", zone_path(zone), method: "DELETE", data: { confirm: "Are you sure?" } %>
+      <%= link_to "Schedules (#{zone.schedules.count})", zone_schedules_path(zone), class: "btn btn-secondary btn-sm" %>
+      <%= link_to "Edit", edit_zone_path(zone), class: "btn btn-light btn-sm" %>
+      <%= link_to "Delete", zone_path(zone), method: "DELETE", data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
     </li>
   <% end %>
 </ul>

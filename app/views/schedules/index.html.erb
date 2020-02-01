@@ -1,0 +1,57 @@
+<p>
+  <%= link_to "Back To Zones", zones_path, class: "btn btn-secondary" %>
+</p>
+
+<h1>
+  <%= @zone.name %> Zone
+
+  <%= link_to "<i class=\"icofont-plus\"></i> Add Schedule".html_safe, new_zone_schedule_path(@zone), class: "btn btn-primary float-right" %>
+</h1>
+
+
+
+  <% @schedules.each_slice(4) do |schedules| %>
+    <div class="row">
+      <% schedules.each do |schedule| %>
+        <div class="col-sm-3">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <b>Days:</b>
+              <%= schedule.day_names.join(", ") %>
+            </li>
+
+            <li class="list-group-item">
+              <b>Times:</b>
+              <%= schedule.times_friendly.join(", ") %>
+            </li>
+
+            <li class="list-group-item">
+              <b>Duration:</b>
+              <%= schedule.duration_minutes %> minutes
+            </li>
+
+
+            <%
+              conditions = [].tap do |conditions|
+                conditions << "<i class=\"icofont-thermometer\"></i> When over #{schedule.temperature_threshold}&deg;c" unless schedule.temperature_threshold.zero?
+                conditions << "<i class=\"icofont-rainy\"></i> When no rain forecast" if schedule.rain_skip
+              end
+            %>
+
+            <% if conditions.present? %>
+              <li class="list-group-item">
+                <b>Conditions:</b><br />
+                <%= conditions.join("<br> And <br>").html_safe %>
+              </li>
+            <% end %>
+
+            <li class="list-group-item">
+              <%= link_to "Edit", edit_schedule_path(schedule) %>
+              <%= link_to "Remove", schedule_path(schedule), method: :delete, data: { confirm: "Are you sure?" }, class: "float-right text-danger" %>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
